@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: apache-beam
+
+input:
+  path: "LICENSE.txt"
+
+output:
+  path: "wordCount.txt"
