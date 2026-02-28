@@ -3,7 +3,7 @@ spring:
     name: apache-beam
 
 input:
-  path: "LICENSE.txt"
+  path: "pg1661.txt"
 
 output:
   path: "wordCount.txt"
