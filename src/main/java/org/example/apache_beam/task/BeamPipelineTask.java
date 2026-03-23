@@ -8,8 +8,6 @@ import org.apache.beam.sdk.values.TypeDescriptors;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Strings;
 import org.checkerframework.checker.initialization.qual.Initialized;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.net.URL;
@@ -18,7 +16,6 @@ import java.util.Set;
 
 import static java.util.Objects.isNull;
 
-@Component
 public class BeamPipelineTask implements Serializable {
 
     private static final Set<String> STOP_WORDS = Set.of(".", "!", "?", ",", ";", ":", "\"", "'", "(", ")");
@@ -27,8 +24,8 @@ public class BeamPipelineTask implements Serializable {
 
     private final String outputFilePath;
 
-    public BeamPipelineTask(@Initialized @Value("${input.path}") String inputFilePath,
-                            @Initialized @Value("${output.path}") String outputFilePath) {
+    public BeamPipelineTask(@Initialized String inputFilePath,
+                            @Initialized String outputFilePath) {
         URL inputResource = getClass().getClassLoader().getResource(inputFilePath);
         if (isNull(inputResource)) {
             throw new IllegalArgumentException("File " + inputFilePath + " not found in resources!");
