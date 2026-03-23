@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'org.example'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 description = 'Demo project for Google Cloud Apache Beam'
 
 java {
@@ -22,6 +22,32 @@ dependencies {
 	implementation 'org.apache.beam:beam-runners-google-cloud-dataflow-java:2.66.0'
 	runtimeOnly 'org.apache.beam:beam-runners-direct-java:2.70.0'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Logging (SLF4J is the standard for Beam)
+	implementation "org.slf4j:slf4j-api:2.0.9"
+	implementation "org.slf4j:slf4j-simple:2.0.9"
+}
+
+// the task to create a shadow JAR for local run
+shadowJarLocal {
+	// 1. Mandatory for Beam: Merges META-INF/services files.
+	// Without this, the JAR won't "see" the DataflowRunner.
+	mergeServiceFiles()
+
+	// 2. Custom name for the output JAR (optional)
+	archiveBaseName.set('apache-beam')
+	archiveClassifier.set('')
+	archiveVersion.set('')
+
+	// 3. Prevent SecurityExceptions by excluding signature files from dependencies
+	exclude 'META-INF/*.SF'
+	exclude 'META-INF/*.DSA'
+	exclude 'META-INF/*.RSA'
+
+	// 4. Set the Manifest Main-Class
+	manifest {
+		attributes 'Main-Class': org.example.apache_beam.LocalTextAnalyzerToTextPipeline
+	}
 }
 
 tasks.named('test') {

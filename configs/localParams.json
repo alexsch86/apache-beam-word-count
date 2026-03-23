@@ -1,0 +1,7 @@
+{
+  "inputPath": "./src/main/resources/pg5614.txt",
+  "outputPath": "./output/results/",
+  "numWorkers": "2",
+  "maxNumWorkers": "4",
+  "runner": "DirectRunner"
+}

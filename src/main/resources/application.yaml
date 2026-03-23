@@ -1,6 +1,5 @@
-spring:
-  application:
-    name: apache-beam
+application:
+  name: apache-beam
 
 input:
   path: "pg1661.txt"
