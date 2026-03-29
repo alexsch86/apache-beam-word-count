@@ -1,7 +1,8 @@
 {
-  "inputPath": "./src/main/resources/pg5614.txt",
-  "outputPath": "./output/results/",
-  "numWorkers": "2",
-  "maxNumWorkers": "4",
-  "runner": "DirectRunner"
+  "inputPath": "pg1513-SMALL.txt",
+  "outputPath": "output/results/{filename}.txt",
+  "numWorkers": "1",
+  "maxNumWorkers": "2",
+  "runner": "org.apache.beam.runners.direct.DirectRunner",
+  "project": "beam-local-executable"
 }

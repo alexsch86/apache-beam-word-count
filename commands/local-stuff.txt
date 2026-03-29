@@ -1,0 +1,2 @@
+
+java -jar build/libs/apache-beam-local.jar --parameters-file=configs/localParams.json
