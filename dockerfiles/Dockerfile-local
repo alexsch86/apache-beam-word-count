@@ -22,7 +22,7 @@ RUN ./gradlew shadowJarLocal --no-daemon
 FROM gcr.io/dataflow-templates-base/java21-template-launcher-base:latest
 
 ENV FLEX_TEMPLATE_JAVA_CLASSPATH="/template/apache-beam.jar"
-ENV FLEX_TEMPLATE_JAVA_MAIN_CLASS="org.example.apache_beam.LocalTextAnalyzerToTextPipeline"
+ENV FLEX_TEMPLATE_JAVA_MAIN_CLASS="org.example.apache_beam.pipelines.LocalTextAnalyzerToTextPipeline"
 
 # Copy the JAR from the builder stage
 COPY --from=builder /home/gradle/project/build/libs/apache-beam.jar ${FLEX_TEMPLATE_JAVA_CLASSPATH}

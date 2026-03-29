@@ -1,9 +1,10 @@
-package org.example.apache_beam;
+package org.example.apache_beam.pipelines;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.options.PipelineOptionsFactory;
-import org.example.apache_beam.task.BeamPipelineTask;
+import org.example.apache_beam.options.TextToTextAnalyzerLocalOptions;
+import org.example.apache_beam.task.LocalBeamPipelineTask;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class LocalTextAnalyzerToTextPipeline {
     private static void runPipeline(TextToTextAnalyzerLocalOptions options) {
         Pipeline pipeline = Pipeline.create(options);
 
-        BeamPipelineTask task = new BeamPipelineTask(options.getInputPath(), options.getOutputPath());
+        LocalBeamPipelineTask task = new LocalBeamPipelineTask(options.getInputPath(), options.getOutputPath());
         task.setUpPipeline(pipeline);
         task.runJob(pipeline);
     }

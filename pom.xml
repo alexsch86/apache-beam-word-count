@@ -100,7 +100,7 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <!-- Sets the Main Class in the manifest -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>org.example.apache_beam.LocalTextAnalyzerToTextPipeline</mainClass>
+                                    <mainClass>org.example.apache_beam.pipelines.LocalTextAnalyzerToTextPipeline</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

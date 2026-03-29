@@ -16,7 +16,7 @@ import java.util.Set;
 
 import static java.util.Objects.isNull;
 
-public class BeamPipelineTask implements Serializable {
+public class LocalBeamPipelineTask implements Serializable {
 
     private static final Set<String> STOP_WORDS = Set.of(".", "!", "?", ",", ";", ":", "\"", "'", "(", ")");
 
@@ -24,8 +24,8 @@ public class BeamPipelineTask implements Serializable {
 
     private final String outputFilePath;
 
-    public BeamPipelineTask(@Initialized String inputFilePath,
-                            @Initialized String outputFilePath) {
+    public LocalBeamPipelineTask(@Initialized String inputFilePath,
+                                 @Initialized String outputFilePath) {
         URL inputResource = getClass().getClassLoader().getResource(inputFilePath);
         if (isNull(inputResource)) {
             throw new IllegalArgumentException("File " + inputFilePath + " not found in resources!");

@@ -1,5 +1,5 @@
 {
-  "inputPath": "pg1513-SMALL.txt",
+  "inputPath": "LICENSE.txt",
   "outputPath": "output/results/{filename}.txt",
   "numWorkers": "1",
   "maxNumWorkers": "2",
