@@ -32,11 +32,13 @@ public class LocalBeamPipelineTask extends GenericTextAnalyzerTask {
         this.outputFilePath = outputFilePath;
     }
 
-    protected PCollection<String> readLines(Pipeline pipeline) {
-        return pipeline.apply("(1) Read all lines", TextIO.read().from(inputFilePath));
+    @Override
+    public void setUpPipeline(Pipeline pipeline) {
+        PCollection<String> lines = readLines(pipeline);
+        applyTransformationAndWriteToOutput(lines);
     }
 
-    protected void applyTransformationAndWriteToOutput(PCollection<String> lines) {
+    private void applyTransformationAndWriteToOutput(PCollection<String> lines) {
         lines.apply("(2) Flatmap to a list of words", FlatMapElements.into(TypeDescriptors.strings())
                         .via(line -> Arrays.asList(line.split("\\s"))))
                 .apply("(3) Lowercase all", MapElements.into(TypeDescriptors.strings())
@@ -48,6 +50,10 @@ public class LocalBeamPipelineTask extends GenericTextAnalyzerTask {
                 .apply("Show each word count", MapElements.into(TypeDescriptors.strings())
                         .via(count -> count.getKey() + " -> " + count.getValue()))
                 .apply("Write to output file", TextIO.write().to(outputFilePath));
+    }
+
+    private PCollection<String> readLines(Pipeline pipeline) {
+        return pipeline.apply("(1) Read all lines", TextIO.read().from(inputFilePath));
     }
 
 }

@@ -26,7 +26,8 @@ public interface GcsToGcsOptions extends DataflowPipelineOptions {
     void setProcessedPath(String value);
 
 
-    @Description("How often to poll for new files in seconds")
+    @Description("How often to poll for new files in seconds. This is no longer used, since we run in batch mode," +
+            " however the Flex template metadata still needs it, therefore it needs to be in this interface")
     @org.apache.beam.sdk.options.Default.Integer(60)
     Integer getPollInterval();
 

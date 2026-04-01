@@ -2,7 +2,6 @@ package org.example.apache_beam.task;
 
 import org.apache.beam.sdk.Pipeline;
 import org.apache.beam.sdk.transforms.DoFn;
-import org.apache.beam.sdk.values.PCollection;
 import org.apache.commons.lang3.Strings;
 
 import java.io.Serializable;
@@ -16,14 +15,7 @@ public abstract class GenericTextAnalyzerTask implements Serializable {
         pipeline.run();
     }
 
-    public void setUpPipeline(Pipeline pipeline) {
-        PCollection<String> lines = readLines(pipeline);
-        applyTransformationAndWriteToOutput(lines);
-    }
-
-    protected abstract PCollection<String> readLines(Pipeline pipeline);
-
-    protected abstract void applyTransformationAndWriteToOutput(PCollection<String> lines);
+    public abstract void setUpPipeline(Pipeline pipeline);
 
     static class RemovePunctuationFn extends DoFn<String, String> {
 

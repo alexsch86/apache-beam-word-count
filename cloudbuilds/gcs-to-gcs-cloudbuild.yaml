@@ -2,9 +2,9 @@ steps:
   - name: 'gcr.io/cloud-builders/docker'
     args: [
       'build',
-      '-t', 'gcr.io/textanalyzer-489509/gcs-to-gcs-template:latest',
+      '-t', 'gcr.io/$PROJECT_ID/gcs-to-gcs-template:latest',
       '-f', 'dockerfiles/Dockerfile-gcs-to-gcs',
       '.'
     ]
 images:
-  - 'gcr.io/textanalyzer-489509/gcs-to-gcs-template:latest'
+  - 'gcr.io/$PROJECT_ID/gcs-to-gcs-template:latest'

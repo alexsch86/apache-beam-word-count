@@ -13,13 +13,13 @@ public class GcsToGcsTextAnalyzerPipeline {
                 .fromArgs(args)
                 .withValidation()
                 .as(GcsToGcsOptions.class);
-        // Flex Templates for watching buckets must be in streaming mode
-        options.setStreaming(true);
+        // Flex Templates for batch mode must have streaming to false
+        options.setStreaming(false);
 
         Pipeline pipeline = Pipeline.create(options);
 
         GenericTextAnalyzerTask task = new GcsToGcsPipelineTask(options.getInputPath(), options.getOutputPath(),
-                options.getProcessedPath(), options.getPollInterval());
+                options.getProcessedPath());
         task.setUpPipeline(pipeline);
         task.runJob(pipeline);
     }
