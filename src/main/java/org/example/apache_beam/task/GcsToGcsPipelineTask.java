@@ -50,13 +50,13 @@ public class GcsToGcsPipelineTask extends GenericTextAnalyzerTask {
                         .via(String::toLowerCase))
                 .apply("(4) Trim whitespaces", MapElements.into(TypeDescriptors.strings())
                         .via(StringUtils::trim))
-                .apply("Remove punctuation", ParDo.of(new RemovePunctuationFn()))
+                //TODO: Apply here the same remove punctuation DoFn function, or create a better one
                 .apply("(6) Count words", Count.perElement())
                 .apply("Show each word count", MapElements.into(TypeDescriptors.strings())
                         .via(count -> count.getKey() + " -> " + count.getValue()));
 
         // Usually, you would write to BigQuery or a specific timestamped GCS path. This is the next step
-        stringFinalResults.apply("WriteResults", TextIO.write().to(this.outputPath + "results/run"));
+        stringFinalResults.apply("WriteResults", TextIO.write().to(this.outputPath + "run"));
 
         // 3. MOVE the files to 'processed' folder after they are analyzed
         moveProcessedFiles(matchedFiles, stringFinalResults);
@@ -64,13 +64,14 @@ public class GcsToGcsPipelineTask extends GenericTextAnalyzerTask {
 
     private @NonNull PCollection<FileIO.ReadableFile> watchAndMonitorFiles(Pipeline pipeline) {
         return pipeline
-                .apply("WatchGCS", FileIO.match().filepattern(this.inputPath))   // streaming mode
+                //TODO: introduce the input path file pattern
+                .apply("WatchGCS", FileIO.match().filepattern(""))   // streaming mode
                 .apply("ReadMatches", FileIO.readMatches());
     }
 
     private static void moveProcessedFiles(PCollection<FileIO.ReadableFile> matchedFiles, PCollection<String> writeDone) {
         matchedFiles
-                .apply("WaitForWriteDone", Wait.on(writeDone))
+                //TODO: apply a wait operation, on the PCollection passed as param, before proceeding to move the file to processed folder
                 .apply("MoveToProcessed", ParDo.of(new DoFn<FileIO.ReadableFile, Void>() {
                     @ProcessElement
                     public void processElement(@Element FileIO.ReadableFile file, ProcessContext c) {

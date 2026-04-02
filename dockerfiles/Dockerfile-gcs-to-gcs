@@ -7,10 +7,12 @@ FROM gcr.io/dataflow-templates-base/java21-template-launcher-base:latest
 ENV FLEX_TEMPLATE_JAVA_CLASSPATH="/template/beam-pipeline.jar"
 
 # 2. Define your Main Class
-ENV FLEX_TEMPLATE_JAVA_MAIN_CLASS="org.example.apache_beam.pipelines.GcsToGcsTextAnalyzerPipeline"
+#TODO: define here the main class for GCS to GCS pipeline
+ENV FLEX_TEMPLATE_JAVA_MAIN_CLASS=""
 
 # 3. Copy the 'Fat JAR' created by 'mvn package' into the image.
-COPY target/apache-beam-executable.jar ${FLEX_TEMPLATE_JAVA_CLASSPATH}
+#TODO: copy here the JAR executable that is specified in the maven-shade-plugin configuration
+COPY target/ ${FLEX_TEMPLATE_JAVA_CLASSPATH}
 
 # The entrypoint is inherited from the base image and handles
 # passing your --parameters to the Java main method.
