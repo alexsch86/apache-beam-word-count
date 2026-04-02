@@ -51,7 +51,9 @@ public class GcsToBqPipelineTask extends GenericTextAnalyzerTask {
                     public void processElement(@Element FileIO.ReadableFile file, OutputReceiver<KV<String, String>> out) {
                         String fileName = file.getMetadata().resourceId().getFilename();
                         try (BufferedReader reader = new BufferedReader(new InputStreamReader(Channels.newInputStream(file.open())))) {
-                            reader.lines().forEach(line -> out.output(KV.of(fileName, line)));
+                            //TODO: in the consumer, output to the out receiver a KV structure consisting of filename and the line itself,
+                            // see further below for which is the key and which the value
+                            reader.lines().forEach(line -> System.out.println(line));
                         } catch (Exception e) {
                             LOG.error("Error reading file {}: {}", fileName, e.getMessage());
                         }
@@ -64,8 +66,9 @@ public class GcsToBqPipelineTask extends GenericTextAnalyzerTask {
                 .apply("ExtractWords", FlatMapElements.into(TypeDescriptors.kvs(TypeDescriptors.strings(), TypeDescriptors.strings()))
                         .via(kv -> {
                             String fileName = kv.getKey();
-                            return Arrays.stream(kv.getValue().split("\\s+"))
-                                    .map(word -> KV.of(fileName, word))
+                            //TODO: make the split on the value of the KV structure and map to new KV, the key being the filename
+                            return Arrays.stream("".split("\\s+"))
+                                    .map(word -> KV.of("", ""))
                                     .collect(Collectors.toList());
                         }))
                 .apply("CleanWords", MapElements.into(TypeDescriptors.kvs(TypeDescriptors.strings(), TypeDescriptors.strings()))
@@ -73,9 +76,10 @@ public class GcsToBqPipelineTask extends GenericTextAnalyzerTask {
                 .apply("RemovePunctuation", ParDo.of(new DoFn<KV<String, String>, KV<String, String>>() {
                     @ProcessElement
                     public void processElement(@Element KV<String, String> kv, OutputReceiver<KV<String, String>> out) {
-                        String word = kv.getValue().replaceAll("[^a-zA-Z0-9]", "");
+                        //TODO: make the necessary replacements: kv is structure in, out is structure out
+                        String word = "".replaceAll("[^a-zA-Z0-9]", "");
                         if (!word.isEmpty()) {
-                            out.output(KV.of(kv.getKey(), word));
+                            out.output(KV.of("", ""));
                         }
                     }
                 }))
@@ -83,9 +87,11 @@ public class GcsToBqPipelineTask extends GenericTextAnalyzerTask {
                 .apply("CountPerFileAndWord", Count.perElement())
                 .apply("MapToTableRow", MapElements.into(TypeDescriptor.of(TableRow.class))
                         .via(kvCount -> {
-                            String fileName = kvCount.getKey().getKey();
-                            String word = kvCount.getKey().getValue();
-                            Long count = kvCount.getValue();
+                            //TODO: fill the replacements to understand the structures: previous Count PTransform preserved in the
+                            // key the aggregated data for which we count, i.e. filename and word, and the value is the actual count
+                            String fileName = "";
+                            String word = "";
+                            Long count = 0L;
                             return new TableRow()
                                     .set(WORD_FIELD, word)
                                     .set(COUNT_FIELD, count)
@@ -105,9 +111,10 @@ public class GcsToBqPipelineTask extends GenericTextAnalyzerTask {
 
     private TableSchema getTableSchema() {
         return new TableSchema().setFields(Arrays.asList(
-                new TableFieldSchema().setName(WORD_FIELD).setType("STRING").setMode("REQUIRED"),
-                new TableFieldSchema().setName(COUNT_FIELD).setType("INTEGER").setMode("REQUIRED"),
-                new TableFieldSchema().setName(FILENAME_FIELD).setType("STRING").setMode("REQUIRED")
+                //TODO: set the types for each field, and the name
+                new TableFieldSchema().setName("").setType("").setMode("REQUIRED"),
+                new TableFieldSchema().setName("").setType("").setMode("REQUIRED"),
+                new TableFieldSchema().setName("").setType("").setMode("REQUIRED")
         ));
     }
 }
