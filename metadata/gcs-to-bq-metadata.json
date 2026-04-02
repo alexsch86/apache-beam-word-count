@@ -1,0 +1,26 @@
+{
+  "name": "GCS To BQ Text Analyzer",
+  "description": "A streaming pipeline that checks a GCS bucket for new files, process them by counting every word, and writes the results in a BigQuery table, while also moving the processed file",
+  "parameters": [
+    {
+      "name": "inputPath",
+      "label": "Input GCS Path",
+      "helpText": "The GCS file pattern to monitor for new files (e.g., gs://my-bucket/inbox/*.txt).",
+      "isOptional": false,
+      "regex": "^gs://.*"
+    },
+    {
+      "name": "outputTable",
+      "label": "Results Output Table",
+      "helpText": "BigQuery table to write to, e.g. (project:my-dataset.my-table)",
+      "isOptional": false
+    },
+    {
+      "name": "processedPath",
+      "label": "Archive Path",
+      "helpText": "The GCS folder where original files are moved after successful processing (e.g., gs://my-bucket/archive/).",
+      "isOptional": false,
+      "regex": "^gs://.*"
+    }
+  ]
+}

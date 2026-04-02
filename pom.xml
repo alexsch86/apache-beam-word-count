@@ -147,7 +147,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-shade-plugin</artifactId>
-                        <version>3.5.1</version>
                         <executions>
                             <execution>
                                 <phase>package</phase>
@@ -172,6 +171,51 @@
                                         <!-- Sets the Main Class in the manifest -->
                                         <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                             <mainClass>org.example.apache_beam.pipelines.GcsToGcsTextAnalyzerPipeline</mainClass>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+
+        <profile>
+            <id>gcs-to-bq</id>
+
+            <build>
+
+                <plugins>
+                    <!-- The equivalent of Gradle Shadow Plugin -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>apache-beam-to-bq-executable</finalName>
+                                    <filters>
+                                        <filter>
+                                            <artifact>*:*</artifact>
+                                            <excludes>
+                                                <exclude>META-INF/*.SF</exclude>
+                                                <exclude>META-INF/*.DSA</exclude>
+                                                <exclude>META-INF/*.RSA</exclude>
+                                            </excludes>
+                                        </filter>
+                                    </filters>
+                                    <transformers>
+                                        <!-- CRITICAL: Merges Service Loader entries so Beam can find Runners/Coders -->
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                        <!-- Sets the Main Class in the manifest -->
+                                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <mainClass>org.example.apache_beam.pipelines.GcsToBqTextAnalyzerPipeline</mainClass>
                                         </transformer>
                                     </transformers>
                                 </configuration>

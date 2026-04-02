@@ -1,0 +1,17 @@
+# Use the official Google Cloud Dataflow launcher base image.
+# This image contains the necessary logic to launch your Java
+# code within the Dataflow environment.
+FROM gcr.io/dataflow-templates-base/java21-template-launcher-base:latest
+
+# 1. Define where the JAR will live inside the container
+ENV FLEX_TEMPLATE_JAVA_CLASSPATH="/template/beam-pipeline.jar"
+
+# 2. Define your Main Class
+ENV FLEX_TEMPLATE_JAVA_MAIN_CLASS="org.example.apache_beam.pipelines.GcsToBqTextAnalyzerPipeline"
+
+# 3. Copy the 'Fat JAR' created by 'mvn package' into the image.
+COPY target/apache-beam-to-bq-executable.jar ${FLEX_TEMPLATE_JAVA_CLASSPATH}
+
+# The entrypoint is inherited from the base image and handles
+# passing your --parameters to the Java main method.
+ENTRYPOINT ["/opt/google/dataflow/java-template-launcher"]

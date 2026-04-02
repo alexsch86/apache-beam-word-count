@@ -1,6 +1,6 @@
 {
   "name": "GCS To GCS Text Analyzer",
-  "description": "A streaming pipeline that monitors a GCS bucket for new files, processes them, and moves them to an archive folder.",
+  "description": "A streaming pipeline that checks a GCS bucket for new files, process them by counting every word, and writes these results to another file in the bucket, while also moving the processed files",
   "parameters": [
     {
       "name": "inputPath",
