@@ -45,7 +45,7 @@ public class LocalBeamPipelineTask extends GenericTextAnalyzerTask {
                         .via(String::toLowerCase))
                 .apply("(4) Trim whitespaces", MapElements.into(TypeDescriptors.strings())
                         .via(StringUtils::trim))
-                .apply("Remove punctuation", ParDo.of(new RemovePunctuationFn()))
+                //TODO: apply a DoFn function to remove punctuation. Hint: it is in the generic task class
                 .apply("(6) Count words", Count.perElement())
                 .apply("Show each word count", MapElements.into(TypeDescriptors.strings())
                         .via(count -> count.getKey() + " -> " + count.getValue()))

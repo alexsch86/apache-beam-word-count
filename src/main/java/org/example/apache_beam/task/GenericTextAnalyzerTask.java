@@ -23,6 +23,7 @@ public abstract class GenericTextAnalyzerTask implements Serializable {
         public void processElement(@Element String word, OutputReceiver<String> out) {
             // remove all punctuation
             if (!word.isEmpty()) {
+                //TODO: you can play with this inefficient word extractor algorithm, to enhance it
                 for (String stopWord : STOP_WORDS) {
                     word = Strings.CI.remove(word, stopWord);
                 }

@@ -40,9 +40,8 @@ public class LocalTextAnalyzerToTextPipeline {
     private static void runPipeline(TextToTextAnalyzerLocalOptions options) {
         Pipeline pipeline = Pipeline.create(options);
 
-        GenericTextAnalyzerTask task = new LocalBeamPipelineTask(options.getInputPath(), options.getOutputPath());
-        task.setUpPipeline(pipeline);
-        task.runJob(pipeline);
+        //TODO: fetch the params from options interface, setup the pipeline for the task, and run the pipeline
+        GenericTextAnalyzerTask task = new LocalBeamPipelineTask(null, null);
     }
 
     private static void resolveDynamicOutputPath(TextToTextAnalyzerLocalOptions options) {
