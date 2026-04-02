@@ -1,4 +1,4 @@
-```markdown
+
 # Apache Beam Pipeline Instructions
 
 > **Note for Windows Users:** The `gcloud` commands below are formatted for Unix-like systems (Linux/macOS). If you are using **PowerShell**, remember to replace `$` with `$env:` and use backticks (`` ` ``) for line breaks instead of backslashes (`\`).
