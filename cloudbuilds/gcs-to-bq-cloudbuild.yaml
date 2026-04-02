@@ -7,4 +7,4 @@ steps:
       '.'
     ]
 images:
-  - 'gcr.io/$PROJECT_ID/gcs-to-gcs-template:latest'
+  - 'gcr.io/$PROJECT_ID/gcs-to-bq-template:latest'
